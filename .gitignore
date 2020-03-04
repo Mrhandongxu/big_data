@@ -1,0 +1,16 @@
+/imdbdata
+*.aux
+*.fdb_latexmk
+*.fls
+*.log
+*.gz
+*.png
+*.zip
+*.class
+*.tsv
+*.csv
+.DS_store
+.idea
+/out
+*.iml
+

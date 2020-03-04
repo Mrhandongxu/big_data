@@ -1,0 +1,61 @@
+create user dongxu with password '199710' createdb;
+create database imdb_dx owner dongxu encoding utf8;
+create table title_akas(
+	titleId bigint not null, -- integer id for title
+	ordering int not null, -- unique integer identifying a local title
+	title varchar, -- localized title
+	region char(2), -- region for title
+	language char(2), -- language of title
+	types varchar[], -- types of title
+	attributes varchar[], -- additional description of title
+	isOriginalTitle boolean, -- 0: not original title; 1: original title
+	primary key (titleId, ordering)
+);
+create table title_basics(
+	tconst bigint not null primary key, -- integer id for title
+	titleType varchar, -- type of title
+	primaryTitle varchar not null, -- title used when released
+	originalTitle varchar not null, -- original title
+	isAdult boolean, -- 0: non-adult title; 1: adult title
+	startYear char(4), -- release year of title in YYYY format
+	endYear char(4), -- TV series end year of title in YYYY format or null
+	runtimeMinutes int, -- runtime, in minutes
+	genres varchar[] -- includes up to three genres associated with the title
+);
+create table title_crew(
+	tconst bigint not null, -- integer id for title
+	directors int[], -- director(s) of the given title
+	writers int[], -- writer(s) of the given title
+	primary key (tconst)
+);
+create table title_episode(
+	tconst bigint not null, -- integer id for episode
+	parentTconst int, -- integer id of the parent TV Series
+	seasonNumber int, -- season number the episode belongs to
+	episodeNumber int, -- number of episode in the TV series
+	primary key (tconst)
+);
+create table title_principals(
+	tconst bigint not null, -- integer id for title
+	ordering int, -- number of the principal of the title
+	nconst int, -- integer id for principal's name
+	category varchar, -- the category of job that person was in
+	job varchar, -- the specific job title if applicable or null
+	characters varchar, -- the name of the character played or null
+	primary key (tconst, ordering)
+);
+create table title_ratings(
+	tconst bigint not null, -- integer id for title
+	averageRating decimal(1, 1), -- average of all individual user ratings
+	numVotes bigint, -- number of received votes
+	primary key (tconst)
+);
+create table name_basics(
+  nconst int not null, -- integer id for a person
+  primaryName varchar not null, -- name by which the person is most often credited
+  birthYear int(4), -- birth year in YYYY format
+  deathYear int(4), -- death year in YYYY format or null
+  primaryProfession varchar[], -- at most 3 professions of the person
+  knownForTitles int[], -- titles the person is known for
+  primary key (nconst)
+);

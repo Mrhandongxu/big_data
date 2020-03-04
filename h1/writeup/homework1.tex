@@ -1,0 +1,177 @@
+\documentclass[a4paper]{article}
+\usepackage{geometry}
+\usepackage{longtable}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{listings}
+\usepackage[colorlinks]{hyperref}
+\lstset{columns=fixed,             
+        numbers=left, % 在左侧显示行号
+        frame=none, % 不显示背景边框
+        backgroundcolor=\color[RGB]{245,245,244}, % 设定背景颜色
+        keywordstyle=\color[RGB]{40,60,255}, % 设定关键字颜色
+        numberstyle=\footnotesize\color{darkgray}, % 设定行号格式
+        commentstyle=\it\color[RGB]{100,100,100}, % 设置代码注释的格式
+        stringstyle=\rmfamily\slshape\color[RGB]{128,0,0}, % 设置字符串格式
+        showstringspaces=false, % 不显示字符串中的空格
+        language=JAVA,
+        breaklines=true,
+        postbreak=\space,
+        breakautoindent=true,
+        breakindent=20pt,
+}
+\usepackage{float}
+\geometry{left=2cm,right=2cm,top=1.5cm,bottom=2.5cm}
+\title{Introduction to Big Data: Homework 1}
+\author{Dongxu Han}
+\date{}
+\begin{document}
+\maketitle
+\setlength{\parskip}{-0.5em}
+\Large
+\noindent
+1.\\
+\textbf{title.akas.tsv} - this file describes details of    localized title/tv in different regions.
+\begin{longtable}[l]{p{2.5cm}|p{10.5cm}}
+\hline
+Content & Description \\ \hline
+titleId & unique id of title \\ \hline
+ordering & unique id of each title in different regions \\ \hline
+title & a localized title \\ \hline
+region & display region of this version, represented by acronym of countries \\ \hline
+language & language of this version, usually accords with region \\ \hline
+types & display type of this version, like dvd, tv, imdbDisplay, etc. \\ \hline
+attributes & more description of this version \\ \hline
+isOriginal-Title & whether it's original title. 0 means not original; 1 means original \\ \hline
+\end{longtable}
+\noindent
+\textbf{name.basics.tsv} - describe basic information of persons, including name, profession, etc.
+\begin{longtable}[l]{p{2.5cm}|p{10.5cm}}
+\hline
+Content & Description \\ \hline
+nconst & unique id of the person \\ \hline
+primary-Name & name of the person \\ \hline
+birthYear & birth year of the person \\ \hline
+deathYear & death year of the person, may be null because being alive \\ \hline
+primary-Profession & profession of the person \\ \hline
+knownFor-Titles & titles this person is known for \\ \hline
+\end{longtable}
+\noindent
+\textbf{title.basics.tsv} - describe basic information of titles, including type, genre, etc.
+\begin{longtable}[l]{p{2.5cm}|p{10.5cm}}
+\hline
+Content & Description \\ \hline
+tconst & unique id of a given title \\ \hline
+titleType & type of a given title \\ \hline
+primary-Title & the most used title \\ \hline
+isAdult & adult restriction. 0-not adult; 1-adult \\ \hline
+startYear & year this tile starts \\ \hline
+endYear & year this title ends \\ \hline
+runtime-Minutes & how much minutes this title runs \\ \hline
+genres & genre of this title, like documentary, animation, etc. \\ \hline
+\end{longtable}
+\noindent
+\textbf{title.crew.tsv} - describe directing and writing relationship of between titles and persons.
+\begin{longtable}[l]{p{2.5cm}|p{10.5cm}}
+\hline
+Content & Description \\ \hline
+tconst & unique id of a given title \\ \hline
+directors & ids indicating the person who direct this title \\ \hline
+writers & id indicating the person who write this title \\ \hline
+\end{longtable}
+\noindent
+\textbf{title.episode.tsv} - describe episode information of titles and parenting relationship among titles.
+\begin{longtable}[l]{p{2.5cm}|p{10.5cm}}
+\hline
+Content & Description \\ \hline
+tconst & unique id of a given title \\ \hline
+parent-Tconst & id indicating the parent title of a given title \\ \hline
+season-Number & number of season which this title's episode belongs to \\ \hline
+episode-Number & number of episode of this title \\ \hline
+\end{longtable}
+\noindent
+\textbf{title.principals.tsv} - describe principal relationship between titles and persons and details of principals.
+\begin{longtable}[l]{p{2.5cm}|p{10.5cm}}
+\hline
+Content & Description \\ \hline
+tconst & unique id of a given title \\ \hline
+ordering & a unique number of the principal in a given title \\ \hline
+nconst & id indicating the person who is one of principals of a given title \\ \hline
+category & the category of job the person is in for a given title \\ \hline
+job & specific job the person does, may be $"\backslash n"$ \\ \hline
+characters & name of the role this person plays, may be $"\backslash n"$ \\ \hline
+\end{longtable}
+\noindent
+\textbf{title.ratings.tsv} - describe rating and voting information of titles.
+\begin{longtable}[l]{p{2.5cm}|p{10.5cm}}
+\hline
+Content & Description \\ \hline
+tconst & unique id of a given title \\ \hline
+average-Rating & average rating of a given title \\ \hline
+numVotes & number of received votes \\ \hline
+\end{longtable}
+\par
+\noindent
+2.\\\,ER diagram is represented in Figure 1.
+\begin{figure}[ht]
+\centering
+\includegraphics[scale=0.26]{ER.png}
+\caption{Entity-Relationship diagram.}
+\label{fig:label}
+\end{figure}
+\\
+\par
+\noindent
+3.\\
+The \textbf{relational model} is represented in \textbf{Figure 2}.\\
+To use integer instead of strings for primary keys, as for an alphanumeric id, I store the numeric part of it in database. When querying, we join the alphabetic head with it according to the circumstance.\\
+Consider "tt000001". Split "tt000001" to "tt" and "000001" and store "000001" only. If we want to export the data in database, we may then join "tt" with the six-digit number.
+\begin{figure}[ht]
+\centering
+\includegraphics[scale=0.5]{RM.png}
+\caption{Relational model.}
+\label{fig:label}
+\end{figure}\\
+Sql script to create a database for imdb is in file \href{run:./imdb\_script.sql}{imdb\_script.sql}.
+\\\\
+\par
+\noindent
+4.\\
+As for my program, I try to create multiple threads to read different file and insert data into database simultaneously. As shown in relational model, I use a lot of "conceptual" foreign keys. The word "conceptual" means I don't physically use it while creating database and loading data. I admit that foreign key could help keep integrity of data. However, since database would make a check on foreign key when doing operations, this would reduce the performance of loading data into database. This doesn't mean I don't take care of integrity of data. It's just a strategy to improve performance by sacrificing other aspects. Besides, it is actually developer-friendly with no foreign key. We are able to check data integrity in our program as well, with no dependence on database itself.\\
+Time reporting:\\
+Thread loads ratings within 5.46 minutes.\\
+Thread loads write and direct within 28.38 minutes.\\
+Thread loads movie within 30.52 minutes.\\
+Thread loads person within 38.37 minutes.\\
+Thread loads act and produce within 103.35 minutes.\\
+Finish loading all data within 103.36 minutes.\\\\
+Program source code: \href{run:./Imdb.java}{Imdb.java}.\\
+\par
+\noindent
+5.\\
+Part of the program:\\
+Code below would generate a duplicate key error
+\begin{lstlisting}
+String sql1 ="insert into person values(9993720, 'dongxu', 1997, null);";
+String sql2 ="insert into person values(9993720, 'error', 1909, 1992);";
+\end{lstlisting}
+Code below would catch the error in sql2. And take a rollback on sql1.
+\begin{lstlisting}
+try {
+    stmt.execute(sql1);
+    System.out.println("sql1 executed.");
+    // sql2 would generate an error and this transaction would rollback
+    stmt.execute(sql2);
+    stmt.execute(sql3);
+    con.commit();
+} catch (Exception e) {
+    System.out.println("Exception occur: " + e.getMessage());
+    if (con != null) {
+        con.rollback();
+        System.out.println("Rollback occurs.");
+    }
+}
+\end{lstlisting}
+Program source code: \href{run:./RollBackTest.java}{RollBackTest.java}.\\
+
+\end{document}

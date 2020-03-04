@@ -1,0 +1,293 @@
+Program started.
+Retrieve attributes from relation: success.
+Generate combinations: success.
+	285 functional dependencies are found in pruning approach.
+[id] --> id
+[movieid, id] --> id
+[id, type] --> id
+[startyear, id] --> id
+[runtime, id] --> id
+[id, avgrating] --> id
+[genreid, id] --> id
+[genre, id] --> id
+[id, memberid] --> id
+[birthyear, id] --> id
+[role, id] --> id
+[id] --> movieid
+[movieid] --> movieid
+[movieid, id] --> movieid
+[id, type] --> movieid
+[startyear, id] --> movieid
+[runtime, id] --> movieid
+[id, avgrating] --> movieid
+[genreid, id] --> movieid
+[genre, id] --> movieid
+[id, memberid] --> movieid
+[birthyear, id] --> movieid
+[role, id] --> movieid
+[movieid, type] --> movieid
+[startyear, movieid] --> movieid
+[runtime, movieid] --> movieid
+[movieid, avgrating] --> movieid
+[genreid, movieid] --> movieid
+[genre, movieid] --> movieid
+[movieid, memberid] --> movieid
+[birthyear, movieid] --> movieid
+[role, movieid] --> movieid
+[id] --> type
+[movieid] --> type
+[type] --> type
+[movieid, id] --> type
+[id, type] --> type
+[startyear, id] --> type
+[runtime, id] --> type
+[id, avgrating] --> type
+[genreid, id] --> type
+[genre, id] --> type
+[id, memberid] --> type
+[birthyear, id] --> type
+[role, id] --> type
+[movieid, type] --> type
+[startyear, movieid] --> type
+[runtime, movieid] --> type
+[movieid, avgrating] --> type
+[genreid, movieid] --> type
+[genre, movieid] --> type
+[movieid, memberid] --> type
+[birthyear, movieid] --> type
+[role, movieid] --> type
+[startyear, type] --> type
+[runtime, type] --> type
+[type, avgrating] --> type
+[genreid, type] --> type
+[genre, type] --> type
+[type, memberid] --> type
+[birthyear, type] --> type
+[role, type] --> type
+[id] --> startyear
+[movieid] --> startyear
+[startyear] --> startyear
+[movieid, id] --> startyear
+[id, type] --> startyear
+[startyear, id] --> startyear
+[runtime, id] --> startyear
+[id, avgrating] --> startyear
+[genreid, id] --> startyear
+[genre, id] --> startyear
+[id, memberid] --> startyear
+[birthyear, id] --> startyear
+[role, id] --> startyear
+[movieid, type] --> startyear
+[startyear, movieid] --> startyear
+[runtime, movieid] --> startyear
+[movieid, avgrating] --> startyear
+[genreid, movieid] --> startyear
+[genre, movieid] --> startyear
+[movieid, memberid] --> startyear
+[birthyear, movieid] --> startyear
+[role, movieid] --> startyear
+[startyear, type] --> startyear
+[startyear, runtime] --> startyear
+[startyear, avgrating] --> startyear
+[genreid, startyear] --> startyear
+[genre, startyear] --> startyear
+[startyear, memberid] --> startyear
+[birthyear, startyear] --> startyear
+[role, startyear] --> startyear
+[id] --> runtime
+[movieid] --> runtime
+[runtime] --> runtime
+[movieid, id] --> runtime
+[id, type] --> runtime
+[startyear, id] --> runtime
+[runtime, id] --> runtime
+[id, avgrating] --> runtime
+[genreid, id] --> runtime
+[genre, id] --> runtime
+[id, memberid] --> runtime
+[birthyear, id] --> runtime
+[role, id] --> runtime
+[movieid, type] --> runtime
+[startyear, movieid] --> runtime
+[runtime, movieid] --> runtime
+[movieid, avgrating] --> runtime
+[genreid, movieid] --> runtime
+[genre, movieid] --> runtime
+[movieid, memberid] --> runtime
+[birthyear, movieid] --> runtime
+[role, movieid] --> runtime
+[runtime, type] --> runtime
+[startyear, runtime] --> runtime
+[runtime, avgrating] --> runtime
+[genreid, runtime] --> runtime
+[genre, runtime] --> runtime
+[runtime, memberid] --> runtime
+[birthyear, runtime] --> runtime
+[role, runtime] --> runtime
+[id] --> avgrating
+[movieid] --> avgrating
+[avgrating] --> avgrating
+[movieid, id] --> avgrating
+[id, type] --> avgrating
+[startyear, id] --> avgrating
+[runtime, id] --> avgrating
+[id, avgrating] --> avgrating
+[genreid, id] --> avgrating
+[genre, id] --> avgrating
+[id, memberid] --> avgrating
+[birthyear, id] --> avgrating
+[role, id] --> avgrating
+[movieid, type] --> avgrating
+[startyear, movieid] --> avgrating
+[runtime, movieid] --> avgrating
+[movieid, avgrating] --> avgrating
+[genreid, movieid] --> avgrating
+[genre, movieid] --> avgrating
+[movieid, memberid] --> avgrating
+[birthyear, movieid] --> avgrating
+[role, movieid] --> avgrating
+[type, avgrating] --> avgrating
+[startyear, avgrating] --> avgrating
+[runtime, avgrating] --> avgrating
+[genreid, avgrating] --> avgrating
+[genre, avgrating] --> avgrating
+[avgrating, memberid] --> avgrating
+[birthyear, avgrating] --> avgrating
+[role, avgrating] --> avgrating
+[id] --> genreid
+[genreid] --> genreid
+[genre] --> genreid
+[movieid, id] --> genreid
+[id, type] --> genreid
+[startyear, id] --> genreid
+[runtime, id] --> genreid
+[id, avgrating] --> genreid
+[genreid, id] --> genreid
+[genre, id] --> genreid
+[id, memberid] --> genreid
+[birthyear, id] --> genreid
+[role, id] --> genreid
+[genreid, movieid] --> genreid
+[genre, movieid] --> genreid
+[genreid, type] --> genreid
+[genre, type] --> genreid
+[genreid, startyear] --> genreid
+[genre, startyear] --> genreid
+[genreid, runtime] --> genreid
+[genre, runtime] --> genreid
+[genreid, avgrating] --> genreid
+[genre, avgrating] --> genreid
+[genreid, genre] --> genreid
+[genreid, memberid] --> genreid
+[genreid, birthyear] --> genreid
+[genreid, role] --> genreid
+[genre, memberid] --> genreid
+[birthyear, genre] --> genreid
+[role, genre] --> genreid
+[id] --> genre
+[genreid] --> genre
+[genre] --> genre
+[movieid, id] --> genre
+[id, type] --> genre
+[startyear, id] --> genre
+[runtime, id] --> genre
+[id, avgrating] --> genre
+[genreid, id] --> genre
+[genre, id] --> genre
+[id, memberid] --> genre
+[birthyear, id] --> genre
+[role, id] --> genre
+[genreid, movieid] --> genre
+[genre, movieid] --> genre
+[genreid, type] --> genre
+[genre, type] --> genre
+[genreid, startyear] --> genre
+[genre, startyear] --> genre
+[genreid, runtime] --> genre
+[genre, runtime] --> genre
+[genreid, avgrating] --> genre
+[genre, avgrating] --> genre
+[genreid, genre] --> genre
+[genreid, memberid] --> genre
+[genreid, birthyear] --> genre
+[genreid, role] --> genre
+[genre, memberid] --> genre
+[birthyear, genre] --> genre
+[role, genre] --> genre
+[id] --> memberid
+[memberid] --> memberid
+[movieid, id] --> memberid
+[id, type] --> memberid
+[startyear, id] --> memberid
+[runtime, id] --> memberid
+[id, avgrating] --> memberid
+[genreid, id] --> memberid
+[genre, id] --> memberid
+[id, memberid] --> memberid
+[birthyear, id] --> memberid
+[role, id] --> memberid
+[movieid, memberid] --> memberid
+[type, memberid] --> memberid
+[startyear, memberid] --> memberid
+[runtime, memberid] --> memberid
+[avgrating, memberid] --> memberid
+[genreid, memberid] --> memberid
+[genre, memberid] --> memberid
+[birthyear, memberid] --> memberid
+[role, memberid] --> memberid
+[id] --> birthyear
+[memberid] --> birthyear
+[birthyear] --> birthyear
+[movieid, id] --> birthyear
+[id, type] --> birthyear
+[startyear, id] --> birthyear
+[runtime, id] --> birthyear
+[id, avgrating] --> birthyear
+[genreid, id] --> birthyear
+[genre, id] --> birthyear
+[id, memberid] --> birthyear
+[birthyear, id] --> birthyear
+[role, id] --> birthyear
+[movieid, memberid] --> birthyear
+[birthyear, movieid] --> birthyear
+[type, memberid] --> birthyear
+[birthyear, type] --> birthyear
+[startyear, memberid] --> birthyear
+[birthyear, startyear] --> birthyear
+[runtime, memberid] --> birthyear
+[birthyear, runtime] --> birthyear
+[avgrating, memberid] --> birthyear
+[birthyear, avgrating] --> birthyear
+[genreid, memberid] --> birthyear
+[genreid, birthyear] --> birthyear
+[genre, memberid] --> birthyear
+[birthyear, genre] --> birthyear
+[birthyear, memberid] --> birthyear
+[role, memberid] --> birthyear
+[role, birthyear] --> birthyear
+[id] --> role
+[role] --> role
+[movieid, id] --> role
+[id, type] --> role
+[startyear, id] --> role
+[runtime, id] --> role
+[id, avgrating] --> role
+[genreid, id] --> role
+[genre, id] --> role
+[id, memberid] --> role
+[birthyear, id] --> role
+[role, id] --> role
+[movieid, memberid] --> role
+[role, movieid] --> role
+[role, type] --> role
+[role, startyear] --> role
+[role, runtime] --> role
+[role, avgrating] --> role
+[genreid, role] --> role
+[role, genre] --> role
+[role, memberid] --> role
+[role, birthyear] --> role
+
+	Program finish in 897 seconds
+
+Process finished with exit code 0

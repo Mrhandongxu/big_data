@@ -1,0 +1,267 @@
+\documentclass[a4paper]{article}
+\usepackage{geometry}
+\usepackage{longtable}
+\usepackage{graphicx}
+\usepackage{subcaption}
+\usepackage{xcolor}
+\usepackage{listings}
+\usepackage{amsmath}
+\usepackage{enumerate}
+\usepackage{enumitem}
+\usepackage{wrapfig}
+\usepackage{float}
+\lstset{columns=fixed,             
+        % numbers=left, % 在左侧显示行号
+        frame=none, % 不显示背景边框
+        backgroundcolor=\color[RGB]{255,255,255}, % 设定背景颜色
+        keywordstyle=\color[RGB]{0,0,0}, % 设定关键字颜色
+        numberstyle=\footnotesize\color{darkgray}, % 设定行号格式
+        commentstyle=\it\color[RGB]{100,100,100}, % 设置代码注释的格式
+        stringstyle=\rmfamily\slshape\color[RGB]{128,0,0}, % 设置字符串格式
+        showstringspaces=false, % 不显示字符串中的空格
+        language=SQL,
+        breaklines=true,
+        postbreak=\space, % 换行缩进
+        breakautoindent=true, % 换行
+        breakindent=20pt,
+        basicstyle=\fontsize{12}{13}\ttfamily,
+}
+\geometry{left=2cm,right=2cm,top=1.5cm,bottom=2.5cm}
+\title{Homework 3}
+\author{Dongxu Han}
+\date{}
+\begin{document}
+\maketitle
+\setlist[enumerate,1]{label=\arabic*.,}
+\setlist[enumerate,2]{label=\alph*),}
+\setlength{\parskip}{0em}
+\Large
+
+
+
+
+
+\begin{enumerate}
+
+\item
+At first, my program uses following sql to create table and set the auto-increment id.
+\begin{lstlisting}
+drop table if exists new_relation;
+
+create table new_relation(
+    movieId int, type varchar(50),
+    startYear smallint, 
+    runtime int,
+    avgRating numeric(3, 1),
+    genreId int,
+    genre varchar(50),
+    memberId int,
+    birthyear smallint,
+    role int
+);
+alter table new_relation primary key (movieid,genreid,memberid);
+
+
+alter table new_relation
+foreign key (genreid) references movie_genre(genre);
+
+
+alter table new_relation
+foreign key (memberid) references member(id);
+
+
+alter table new_relation
+foreign key (movieid) references movie(id);
+
+\end{lstlisting}
+Then using following sql to insert data, which is a join query of tables, to new\_relation.
+\begin{lstlisting}
+insert into new_relation
+select mv.id,
+       mv.type,
+       mv.startYear,
+       mv.runtime,
+       mv.avgRating,
+       gr.id,
+       gr.name,
+       mb.id,
+       mb.birthyear,
+       amr.role
+from
+ (select id,
+         type,
+         startYear,
+         runtime,
+         avgRating
+  from movie
+  where runtime > 90) as mv
+join (select actor, movie, role
+  from actor_movie_role as inamr
+  where not exists
+  (select movie,
+            actor
+     from actor_movie_role
+     where movie = inamr.movie
+     group by movie,
+              actor having count(role) > 1)) as amr on amr.movie = mv.id
+join movie_genre as mg on mv.id = mg.movie
+join genre as gr on gr.id = mg.genre
+join
+ (select id,
+         birthyear
+  from member) as mb on mb.id = amr.actor;
+\end{lstlisting}
+Now let's see this long SQL script.\\
+The first sub-query is selecting movies whose runtime is greater than 90 minutes. Since we are joining multiple tables, use constrains on single table could help to reduce task of joins.
+\begin{lstlisting}
+select id,
+         type,
+         startYear,
+         runtime,
+         avgRating
+  from movie
+  where runtime > 90
+\end{lstlisting}
+The second sub-query is selecting movies in which actors act only one role.
+\begin{lstlisting}
+select movie,
+       actor
+from actor_movie_role
+where movie = inamr.movie
+group by movie,
+         actor having count(role) > 1
+\end{lstlisting}
+After knowing the actor and movie, we need the role information. So we have an query after above to query all data.
+\begin{lstlisting}
+select actor,
+       movie,
+       role
+from actor_movie_role as inamr
+where not exists
+  (select movie,
+          actor
+   from actor_movie_role
+   where movie = inamr.movie
+   group by movie,
+            actor having count(role) > 1)
+\end{lstlisting}
+And then we join it with movie to get other informations
+\begin{lstlisting}
+select id,
+       type,
+       startYear,
+       runtime,
+       avgRating
+from movie
+where runtime > 90) as mv
+ join
+  (select actor,
+          movie,
+          role
+   from actor_movie_role as inamr
+   where not exists
+     (select movie,
+             actor
+      from actor_movie_role
+      where movie = inamr.movie
+      group by movie,
+               actor having count(role) > 1)) as amr on amr.movie = mv.id
+\end{lstlisting}
+For other attributes, we get them by simply join.\\
+1060624 tuples are inserted. The final execution result and a few tuples are shown below.
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.35]{result12.png}
+\end{figure}
+
+
+
+
+
+
+\item
+The program is shown in Program2.java.\\
+In a naive approach, I firstly get all combinations of all attributes of the relation. Then I check if the combination -> an attribute. The relation has 10 attributes and so I get $\approx 2^10$ combinations. For each attribute, I should check if it depends on some combinations. So $\approx 2^10\times 10$ times of checking.\\
+The main part of checking the functional dependency is the following SQL:
+\begin{lstlisting}
+select combination
+from new_relation
+group by combination 
+having count(attribute) = 1;
+\end{lstlisting}
+In the SQL script, we are checking if \textsl{combination} $\rightarrow$ \textsl{attribute} holds. Considering the definition of functional dependency, for any two tuples, t1, t2, in the relation, if $t1[combination] = t2[combination]$ and $t1[attribute] = t2[attribute]$, then \textsl{combination} $\rightarrow$ \textsl{attribute} holds. In the query, we add constrain of "count(distinct attribute) = 1" on "group by combination". This means for each value of combination, there exists only one value of attribute. Then the dependency exists.\\
+In the program, I only check those dependencies with one attribute on the right side, because $a \rightarrow b, a \rightarrow c$ is equivalent to $a \rightarrow bc$. So just focus on the left side.\\
+To improve the performance, for each attribute, I create a single thread to check functional dependency between it and combinations. So 11 threads are needed.\\
+The result of execution of the program is shown below. It costs about 2.4 hours.\\
+The output of program:\\
+\textsl{
+Program started.\\
+Retrieve attributes from relation: success.\\
+Generate combinations: success.\\
+Created threads to find functional dependencies.\\
+\\
+Program finish in 8,336 seconds\\
+\\
+9248 functional dependencies are found in naive approach.
+\\
+Process finished with exit code 0
+}
+
+
+
+
+
+
+
+\item
+My Program3 is modified based on Program2. Since we have constrains on size of the left-hand side, it only get combinations with one or two attributes on left-hand side. Then we use the same query to try to determine if $t1[left] = t2[left]$ and $t1[right] = t2[right]$. \\
+The main idea is traversing the lattice. Since we cannot do anything about level 0 and level 1, I start the main detection from level 2. The main parts of Program3 is dependency computation and pruning.\\
+The dependency computation algorithm is shown below:
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.35]{dc.png}
+\end{figure}
+The pruning algorithm is shown below:
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.35]{pr.png}
+\end{figure}
+The output of Program3:\\
+\textsl{
+Program started.\\
+Retrieve attributes from relation: success.\\
+$[movieid]\rightarrow type$\\
+$[movieid]\rightarrow avgrating$\\
+$[movieid]\rightarrow startyear$\\
+$[movieid]\rightarrow runtime$\\
+$[memberid]\rightarrow birthyear$\\
+$[genre]\rightarrow genreid$\\
+$[genreid]\rightarrow genre$\\
+7 functional dependencies are found in pruning approach.\\
+\\
+Program finish in 86 seconds\\
+\\
+Process finished with exit code 0\\
+}\\
+Several examples of functional dependencies that is pruned are shown below:
+$[avgrating, memberid]\rightarrow birthyear$\\
+$[birthyear, id]\rightarrow memberid$\\
+$[birthyear, movieid]\rightarrow avgrating$\\
+$[movieid, memberid]\rightarrow avgrating$\\
+
+
+
+\item
+If we don't restrict that an actor only plays a single role in a given movie, then we only have restriction on the runtime of movie, which is "more than 90". Then we would include those movie, in which a single actor could plays more than one role. Since we use {"movieid", "memberid", "genreid"} as primary key of the relation, this would be affected with duplicate key error since in a given movie of a given genre for a given actor(member) there exists more than one roles. So the primary key would be{"movieid", "memberid", "genreid", "role"}. Besides this, we would have more redundant data due to join of multiple genre join multiple actors. The functional dependencies we got in question 3 would change cause the role would be part of candidate key, which previously depends on {"movieid", "memberid"} due to the restriction of "one actor acts one role in one movie".
+
+
+
+
+\item
+The super key is all attributes of the relation since they can obviously uniquely identify each row of relation.\\
+1.all attributes that never appear in functional dependencies: {role}\\
+2.all attributes that are only on the right-hand side or that appear on both sides of the canonical cover:{type, avgrating, startyear, runtime, birthyear}
+
+
+\end{enumerate}
+\end{document}
